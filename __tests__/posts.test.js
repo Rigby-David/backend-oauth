@@ -25,4 +25,21 @@ describe('backend-express-template routes', () => {
     });
   });
 
+  it('#POST /posts auth users can post to the table', async () => {
+    const newPost = {
+      content: 'Hiya friend',
+    };
+
+    const agent = request.agent(app);
+    await agent.get('/api/v1/github/callback?code=42').redirects(1);
+    const res = await agent.post('/api/v1/posts').send(newPost);
+
+    expect(res.status).toBe(200);
+
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      ...newPost,
+      created_at: expect.any(String)
+    });
+  });
 });
