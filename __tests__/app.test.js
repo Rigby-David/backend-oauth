@@ -30,5 +30,15 @@ describe('backend-express-template routes', () => {
       exp: expect.any(Number),
     });
   });
+  it('#DELETE signs out a user', async () => {
+    const res = await request
+      .agent(app)
+      .delete('/api/v1/github');
+
+    expect(res.body).toEqual({
+      success: true,
+      message: 'Signed out',
+    });
+  });
 
 });
